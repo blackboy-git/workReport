@@ -1,14 +1,22 @@
 package com.blackboy.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.blackboy.controller.util.Result;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +62,26 @@ public class ImageUploadController {
         } catch (IOException e) {
             logger.error("文件上传失败", e);
             return new Result(false, "上传失败");
+        }
+    }
+
+    // 获取用户头像图片，转换为Base64再传送
+    @GetMapping("/getUserAvatar/{avatarId}")
+    public Result getUserAvatar(@PathVariable String avatarId) {
+        try {
+            Path filePath = Paths.get(uploadPath).resolve(avatarId);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                byte[] imageBytes = Files.readAllBytes(filePath);
+                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                return new Result(true, "获取成功", base64Image);
+            } else {
+                return new Result(false, "图片不存在", null);
+            }
+        } catch (IOException e) {
+            logger.error("获取图片失败", e);
+            return new Result(false, "获取图片失败", null);
         }
     }
 }

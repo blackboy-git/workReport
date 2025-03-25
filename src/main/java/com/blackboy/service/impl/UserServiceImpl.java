@@ -8,6 +8,7 @@ import com.blackboy.mapper.UserGroupMappingMapper;
 import com.blackboy.mapper.UserMapper;
 import com.blackboy.domain.User;
 import com.blackboy.service.UserService;
+import jakarta.annotation.Resource;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -101,4 +102,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         IPage page = new Page(currentPage, pageSize);
         return this.page(page,lq);
     }
+
+
 }

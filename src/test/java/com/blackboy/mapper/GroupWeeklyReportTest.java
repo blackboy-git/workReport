@@ -10,6 +10,7 @@ public class GroupWeeklyReportTest {
     @Autowired
     private GroupWeeklyReportMapper groupWeeklyReportMapper;
 
+    //测试组内周报的成员周报功能是否正常
     @Test
     void testMemberWeeklyReportsByGroupReportId(){
         groupWeeklyReportMapper.selectMemberWeeklyReportsByGroupReportId(21);
