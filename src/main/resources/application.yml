@@ -23,7 +23,6 @@ file:
   upload:
     path: E:/15Code/6Java项目/workReport/src/main/resources/upload
 
-
 #配置mybatis-plus
 mybatis-plus:
   global-config:
@@ -32,3 +31,8 @@ mybatis-plus:
       id-type: auto
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#配置jwt
+jwt:
+  secret: XoNia7NqrnOhQEOaP7VV2RgGagNKh+iLzj2U9s8Xsus=
+  expiration: 3600  #过期时间，单位秒
