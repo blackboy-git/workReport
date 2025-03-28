@@ -1,11 +1,19 @@
 package com.blackboy.config;
 
+import com.blackboy.interceptor.JwtInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private JwtInterceptor jwtInterceptor;
+
+    //添加跨域访问配置
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 允许跨域访问的路径  '/**'表示应用的所有方法
@@ -22,4 +30,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 // 是否允许发送cookie true-允许 false-不允许 默认false。对服务器有特殊要求的请求，比如请求方法是PUT或DELETE，或者Content-Type字段的类型是application/json，这个值只能设为true
                 .allowCredentials(true);
     }
+
+    //添加拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/api/login"); //排除登录接口
+    }
+
 }

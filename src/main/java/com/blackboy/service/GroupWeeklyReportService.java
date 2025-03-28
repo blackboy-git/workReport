@@ -13,4 +13,7 @@ public interface GroupWeeklyReportService extends IService<GroupWeeklyReport>  {
 
     //更新周报浏览次数
     public boolean updateCountById(Integer reportId);
+
+    //删除某个组内周报
+    public boolean removeGroupWeeklyReport(Integer groupWeeklyReportId);
 }

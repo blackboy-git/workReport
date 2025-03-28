@@ -28,7 +28,7 @@ public class JwtUtilsTest {
     //验证token
     void testValidateToken() {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJibGFja2JveSIsImlhdCI6MTc0MzA2NjI1NCwiZXhwIjoxNzQzMDY5ODU0fQ.dG-KEzV-oHe_VrgT3tmXmj9_65vRr9745qHpgLHiI1o";
-        boolean result = jwtUtils.validateToken(token);
+        String result = jwtUtils.validateToken(token);
         System.out.println(result);
     }
 

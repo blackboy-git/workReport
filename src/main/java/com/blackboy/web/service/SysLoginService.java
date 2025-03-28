@@ -3,6 +3,7 @@ package com.blackboy.web.service;
 import com.blackboy.controller.util.Result;
 import com.blackboy.domain.User;
 import com.blackboy.service.UserService;
+import com.blackboy.util.JwtUtils;
 import com.blackboy.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ public class SysLoginService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     public Result login(String username, String password) {
         // 登录前置校验
@@ -29,9 +33,11 @@ public class SysLoginService {
         }
 
         user.setPassword("");
+        String token = jwtUtils.generateToken(username);
         Result rs = new Result(true, "登录成功！");
         rs.setMsg("用户存在");
         rs.setData(user);
+        rs.setToken(token);
         return rs;
     }
 

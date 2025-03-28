@@ -4,7 +4,6 @@ import com.blackboy.controller.util.Result;
 import com.blackboy.domain.Statistics;
 import com.blackboy.domain.WeeklyReport;
 import com.blackboy.service.WeeklyReportService;
-import jdk.dynalink.beans.StaticClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

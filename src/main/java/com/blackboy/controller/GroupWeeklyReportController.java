@@ -45,4 +45,14 @@ public class GroupWeeklyReportController {
             return new Result(false,"更新失败");
         }
     }
+
+    //删除某个组内周报
+    @DeleteMapping("/{groupWeeklyReportId}")
+    public Result deleteGroupWeeklyReport(@PathVariable Integer groupWeeklyReportId) {
+        if (groupWeeklyReportService.removeGroupWeeklyReport(groupWeeklyReportId)){
+            return new Result(true,"删除成功");
+        }else {
+            return new Result(false,"删除失败");
+        }
+    }
 }

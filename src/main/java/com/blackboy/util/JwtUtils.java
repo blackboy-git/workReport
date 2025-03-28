@@ -1,7 +1,6 @@
 package com.blackboy.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureAlgorithm;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -60,15 +60,27 @@ public class JwtUtils {
     }
 
     //验证token
-    public boolean validateToken(String token){
+    public String validateToken(String token){
+        if (token == null ||!token.startsWith("Bearer ")) {
+            return "未提供有效的 Token，请以 'Bearer ' 开头提供 Token";
+        }
+        token = token.substring(7);
         try {
             Jwts.parser()
                     .verifyWith(getSigningKey())
                     .build()
                     .parseSignedClaims(token);
-            return true;
+            return null;    //验证通过，返回null
+        } catch (ExpiredJwtException e) {
+            return "Token 已过期，请重新登录";
+        } catch (MalformedJwtException e) {
+            return "Token 格式不正确，请检查 Token 是否完整";
+        } catch (UnsupportedJwtException e) {
+            return "不支持的 Token 类型，请检查 Token 格式";
+        } catch (IllegalArgumentException e) {
+            return "Token 为空，请提供有效的 Token";
         } catch (Exception e) {
-            return false;
+            return "Token 验证失败，未知错误";
         }
     }
 
