@@ -3,7 +3,6 @@
   <img src="src\assets\logo.pngg" alt="" style="height: 100px;"/>
   <div style="margin: 0;">
     <h1 style="margin: 0;">通联世界工作周报系统</h1>
-    <div style="color:#666; font-size: 16px;">Fuck Report</div>
   </div>
 </div>
 
