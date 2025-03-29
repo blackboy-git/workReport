@@ -46,6 +46,7 @@ public class GroupWeeklyReportController {
         }
     }
 
+    //增加一行测试ssl取消是否能上传
     //删除某个组内周报
     @DeleteMapping("/{groupWeeklyReportId}")
     public Result deleteGroupWeeklyReport(@PathVariable Integer groupWeeklyReportId) {
