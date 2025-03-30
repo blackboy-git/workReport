@@ -3,6 +3,7 @@ package com.blackboy.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.blackboy.domain.User;
 import com.blackboy.service.impl.UserServiceImpl;
+import com.blackboy.util.PasswordEncryptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,14 +14,24 @@ public class UserServiceImplTest {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private PasswordEncryptor passwordEncryptor;
+
     @Test
     void testSaveUser(){
         User user = new User();
         user.setUserId("wangwu2");
-        user.setPassword("123465");
+        user.setPassword("9b871512327c09ce91dd649b3f96a63b7408ef267c8cc5710114e629730cb61f");
         user.setUserName("王五");
         user.setRole("user");
-        userService.save(user);
+        userService.addUser(user);
+    }
+
+    @Test
+    void testSHAuser(){
+        //文本
+        String password = "9b871512327c09ce91dd649b3f96a63b7408ef267c8cc5710114e629730cb61f";
+        System.out.println(passwordEncryptor.encryptPasswordForSHA("222"));
     }
 
     @Test

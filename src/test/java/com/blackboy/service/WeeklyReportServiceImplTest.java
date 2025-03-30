@@ -72,4 +72,10 @@ public class WeeklyReportServiceImplTest {
         System.out.println(reports);
     }
 
+    //测试用户最近周报数据
+    @Test
+    void testGetRecentWeeklyReport(){
+        Collection<WeeklyReport> reports = weeklyReportService.getRecentWeeklyReport("byb", 2);
+        System.out.println(reports);
+    }
 }

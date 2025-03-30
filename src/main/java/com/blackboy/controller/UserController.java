@@ -25,14 +25,12 @@ public class UserController {
 
     @PostMapping("/user/add")
     public Result addUser(@RequestBody User user){
-        System.out.println("user is:" + user.toString());
-        userService.save(user);
+        userService.addUser(user);
         return new Result(true,"添加成功");
     }
 
     @PutMapping("/user")
     public Result updateUser(@RequestBody User user){
-        System.out.println("user is:" + user.toString());
         userService.updateUser(user);
         return new Result(true,"修改成功");
     }

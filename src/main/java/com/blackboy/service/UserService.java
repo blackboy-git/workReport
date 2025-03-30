@@ -12,7 +12,9 @@ public interface UserService extends IService<User> {
 
     boolean userIsExist(String userId, String password);
 
-    User userLogin(String userId, String password);
+    User userLogin(String userId, String EncryptPassword);
+
+    boolean addUser(User user);
 
     boolean updateUser(User user);
 
@@ -21,5 +23,4 @@ public interface UserService extends IService<User> {
     boolean resetUserPassword(String userId, String oldPassword,String newPassword);
 
     User getUserByUserId(String userId);
-
 }

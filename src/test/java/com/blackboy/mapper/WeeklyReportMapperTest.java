@@ -18,4 +18,5 @@ public class WeeklyReportMapperTest {
         List<WeeklyReport> weeklyReports = weeklyReportMapper.selectList(null);
         System.out.println(weeklyReports);
     }
+
 }

@@ -61,6 +61,18 @@ public class WeeklyReportController {
         }
     }
 
+    //获取用户上周的周报数据
+    @GetMapping("/lastWeek/{userId}")
+    public Result getLastWeeklyReport(@PathVariable String userId) {
+        Collection<WeeklyReport> reports = weeklyReportService.getRecentWeeklyReport(userId,2);
+        //先判断reports中是否有2条数据，如果有才返回第二条数据，如果没有则说明上周没有填写过数据
+        if (reports.size() == 2){
+            return new Result(true, reports.toArray()[1]);
+        }else{
+            return new Result(false, "上周没有填写过周报");
+        }
+    }
+
     //获取用户所在组的全部成员的周报
     @GetMapping("/groupReports/{userId}")
     public Result getGroupWeeklyReports(@PathVariable String userId) {

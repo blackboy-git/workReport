@@ -8,8 +8,9 @@ import com.blackboy.mapper.UserGroupMappingMapper;
 import com.blackboy.mapper.UserMapper;
 import com.blackboy.domain.User;
 import com.blackboy.service.UserService;
-import jakarta.annotation.Resource;
+import com.blackboy.util.PasswordEncryptor;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserMapper userMapper;
 
     private final UserGroupMappingMapper userGroupMappingMapper;
+
+    @Autowired
+    private PasswordEncryptor passwordEncryptor;
 
     public UserServiceImpl(UserMapper userMapper, UserGroupMappingMapper userGroupMappingMapper) {
         this.userMapper = userMapper;
@@ -33,16 +37,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User userLogin(String userId, String password) {
+    public User userLogin(String userId, String EncryptPassword) {
+        //获取用户的密码进行验证
         LambdaQueryWrapper<User> lq = new LambdaQueryWrapper<User>();
         lq.eq(User::getUserId, userId);
-        lq.eq(User::getPassword, password);
-        return userMapper.selectOne(lq);
+
+        User user = userMapper.selectOne(lq);
+        //比较用户的密码
+        if (user != null) {
+            //比较用户输入的密码和数据库中的密码是否一致
+            if (passwordEncryptor.checkPassword(EncryptPassword, user.getPassword())) {
+                System.out.println("比较结果为真。");
+                return user;
+            }else {
+                return null;
+            }
+        }else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean addUser(User user) {
+        //对用户密码进行二次加密
+        user.setPassword(passwordEncryptor.encryptPasswordForBCrypt(user.getPassword()));
+        if (userMapper.insert(user) > 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean updateUser(User user) {
-
+        //对用户密码进行二次加密
+        user.setPassword(passwordEncryptor.encryptPasswordForBCrypt(user.getPassword()));
         if (userMapper.updateByUserId(user) > 0) {
             return true;
         }
@@ -65,18 +93,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //通过用户名和老密码，确认该用户是否存在，如果存在，才执行重置密码操作
         LambdaQueryWrapper<User> lq = new LambdaQueryWrapper();
         lq.eq(Strings.isNotEmpty(userId), User::getUserId, userId);
-        lq.eq(Strings.isNotEmpty(oldPassword), User::getPassword, oldPassword);
         User user = userMapper.selectOne(lq);
-        if (user == null) {
-            return false;
-        }else{
-            //执行重置密码操作
-            if (userMapper.resetPassword(userId, newPassword) > 0) {
-                return true;
+        if (user != null) {
+            //比较用户输入的密码和数据库中的密码是否一致
+            if (passwordEncryptor.checkPassword(oldPassword, user.getPassword())) {
+                System.out.println("比较结果为真。");
+                //执行重置密码操作
+                if (userMapper.resetPassword(userId, passwordEncryptor.encryptPasswordForBCrypt(newPassword)) > 0) {
+                    return true;
+                }else {
+                    return false;
+                }
             }
             else {
                 return false;
             }
+        }else {
+            return false;
         }
     }
 
