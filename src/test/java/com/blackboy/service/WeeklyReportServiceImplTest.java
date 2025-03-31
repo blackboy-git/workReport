@@ -32,7 +32,8 @@ public class WeeklyReportServiceImplTest {
                     "3. 继续开发BinaC框架；";
             String creatTime = "2025-03-01 10:10:20";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            WeeklyReport report = new WeeklyReport("user2", "用户2","", 2, content, LocalDateTime.parse(creatTime, formatter));
+            WeeklyReport report = new WeeklyReport("user2", "用户2","", 2, content, LocalDateTime.parse(creatTime, formatter),
+                    2);
 
             weeklyReportService.save(report);
         }

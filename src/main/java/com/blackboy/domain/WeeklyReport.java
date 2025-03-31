@@ -37,6 +37,9 @@ public class WeeklyReport{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private LocalDateTime createTime; // 创建时间
 
+    @TableField("allow_days")
+    private Integer allowDays;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private LocalDateTime updateTime; // 更新时间
     private Status status;         // 周报状态
@@ -51,7 +54,8 @@ public class WeeklyReport{
     public WeeklyReport() {}
 
     //
-    public WeeklyReport(String userId, String userName,String reportName,Integer groupId, String content, LocalDateTime createTime) {
+    public WeeklyReport(String userId, String userName,String reportName,Integer groupId, String content,
+                        LocalDateTime createTime, Integer allowDays) {
         this.userId = userId;
         this.userName = userName;
         this.reportName = reportName;
@@ -62,6 +66,7 @@ public class WeeklyReport{
         this.year = createTime.getYear();
         this.createTime = createTime;
         this.updateTime = createTime;   //默认新建的周报更新时间与创建时间一致
+        this.allowDays = allowDays;
 
         this.status = Status.DRAFT; // 默认草稿状态
     }
