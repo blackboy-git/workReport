@@ -60,7 +60,8 @@ public class WeeklyReportScheduler {
                             reportName,
                             group.getId(),
                             "",
-                            createTime);
+                            createTime,
+                            group.getAllowDays());
                     weeklyReportService.save(report);
                 }
             }
