@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.blackboy.domain.User;
 
+import java.util.Map;
+
 @RestController
 public class UserController {
 
@@ -50,6 +52,20 @@ public class UserController {
             return new Result(false,"重置密码失败");
         }else{
             return new Result(true,"重置密码成功");
+        }
+    }
+
+    //修改用户头像
+    @PutMapping("/user/updateAvatar")
+    public Result setAvatar(@RequestBody Map<String, Object> request) {
+        //更新用户头像
+        String userId = (String) request.get("userId");
+        String avatarName = (String) request.get("avatarName");
+        boolean success = userService.setUserAvatar(userId, avatarName);
+        if (!success){
+            return new Result(false,"更新头像失败");
+        }else{
+            return new Result(true,"更新头像成功");
         }
     }
 
