@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/workReportDB?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://127.0.0.1:3306/workReportDB?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       username: root
       password: Pwd2024_
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,7 +21,8 @@ spring:
 
 file:
   upload:
-    path: E:/15Code/6Java项目/workReport/src/main/resources/upload
+    #配置上传路径，示例：windows下是D:/upload，linux下是/home/upload
+    path: ./src/main/resources/upload
 
 #配置mybatis-plus
 mybatis-plus:

@@ -1,11 +1,13 @@
 package com.blackboy.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.blackboy.controller.util.Result;
@@ -42,9 +44,13 @@ public class ImageUploadController {
             String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-            // 创建上传目录
+            // 动态计算项目根目录路径
+            File rootDir = ResourceUtils.getFile("classpath:");
+            Path basePath = rootDir.toPath().getParent().resolve(uploadPath);
+
+            File uploadDir = basePath.toFile();
             System.out.println("uploadPath:" + uploadPath);
-            File uploadDir = new File(uploadPath);
+//            File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 if (uploadDir.mkdirs()) {
                     logger.info("上传目录创建成功: {}", uploadDir.getAbsolutePath());
@@ -69,9 +75,11 @@ public class ImageUploadController {
     @GetMapping("/getUserAvatar/{avatarId}")
     public Result getUserAvatar(@PathVariable String avatarId) {
         try {
-            Path filePath = Paths.get(uploadPath).resolve(avatarId);
-            Resource resource = new UrlResource(filePath.toUri());
+            // 动态计算项目根目录路径
+            File rootDir = ResourceUtils.getFile("classpath:");
+            Path filePath = rootDir.toPath().getParent().resolve(uploadPath).resolve(avatarId);
 
+            Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists() && resource.isReadable()) {
                 byte[] imageBytes = Files.readAllBytes(filePath);
                 String base64Image = Base64.getEncoder().encodeToString(imageBytes);
