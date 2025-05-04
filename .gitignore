@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-###忽略用户上传文件###
-src/main/resources/upload/
-
 ### STS ###
 .apt_generated
 .classpath
