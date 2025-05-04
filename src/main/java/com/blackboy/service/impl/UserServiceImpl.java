@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
     private final UserMapper userMapper;
 
     private final UserGroupMappingMapper userGroupMappingMapper;
@@ -112,6 +111,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
     }
+
+    @Override
+    public boolean setUserAvatar(String userId, String avatarName) {
+        if (userMapper.setAvatar(userId, avatarName) > 0) {
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public User getUserByUserId(String userId) {

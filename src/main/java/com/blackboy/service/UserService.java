@@ -3,7 +3,6 @@ package com.blackboy.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blackboy.domain.User;
-import jakarta.annotation.Resource;
 
 public interface UserService extends IService<User> {
     IPage<User> getPage(int currentPage, int pageSize);
@@ -23,4 +22,6 @@ public interface UserService extends IService<User> {
     boolean resetUserPassword(String userId, String oldPassword,String newPassword);
 
     User getUserByUserId(String userId);
+
+    boolean setUserAvatar(String userId, String avatarName);
 }
