@@ -21,8 +21,8 @@ spring:
 
 file:
   upload:
-    #配置上传路径，示例：windows下是D:/upload，linux下是/home/upload
-    path: ./src/main/resources/upload
+    #配置上传路径，示例：windows下是D:/workReport/uploadPath，linux下是/home/workReport/uploadPath,macOS下是/Users/boyblack/Documents/uploadPath
+    path: /Users/boyblack/Documents/uploadPath
 
 #配置mybatis-plus
 mybatis-plus:
